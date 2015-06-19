@@ -148,6 +148,11 @@ namespace :pl do
     end
   end
 
+  desc "Sign OSX packages"
+  task :sign_osx => "pl:fetch" do
+    Pkg::OSX.sign_osx unless Dir['pkg/apple/**/*.dmg'].empty?
+  end
+
   ##
   # This crazy piece of work establishes a remote repo on the distribution
   # server, ships our packages out to it, signs them, and brings them back.
