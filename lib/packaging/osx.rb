@@ -7,8 +7,10 @@ module Pkg::OSX
       signing_server      = Pkg::Config.signing_server
       signing_ssh_key     = Pkg::Config.signing_ssh_key
 
-      ssh_host_string = "-i #{signing_ssh_key} #{ENV['USER']}@#{signing_server}"
-      rsync_host_string = "-e 'ssh -i #{signing_ssh_key}' #{ENV['USER']}@#{signing_server}"
+      use_identity = "-i #{signing_ssh_key}" unless signing_ssh_key.empty?
+
+      ssh_host_string = "#{use_identity} #{ENV['USER']}@#{signing_server}"
+      rsync_host_string = "-e 'ssh #{use_identity}' #{ENV['USER']}@#{signing_server}"
 
       work_dir  = "/tmp/#{rand_string}"
       mount     = File.join(work_dir, "mount")
